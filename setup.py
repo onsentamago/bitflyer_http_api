@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="bitflyer_json_rpc_onsentamago",
+    name="bitflyer_http_api",
     version="0.0.1",
     author="onsentamago",
     author_email="tamago4329@gmail.com",
