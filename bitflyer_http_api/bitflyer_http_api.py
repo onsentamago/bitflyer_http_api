@@ -17,4 +17,4 @@ class BitflyerHttpApi:
 
     def get_tiker(self, product_code: Market):
         payloads = {'product_code': product_code.value}
-        return self.__request("ticker", params=payloads)
+        return self.__request("ticker", params=payloads).json()
