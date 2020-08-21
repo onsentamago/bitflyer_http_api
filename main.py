@@ -1,9 +1,12 @@
 import logging
 
-from bitflyer_http_api import BitflyerHttpApi, Market
+from bitflyer_http_api import BitflyerHttpApi, Market, ServerConnectionError
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     bitflyer_http_api = BitflyerHttpApi()
-    result = bitflyer_http_api.get_ticker(Market.BTC_JPY)
-    logging.debug(result)
+    try:
+        result = bitflyer_http_api.get_ticker(Market.BTC_JPY)
+        logging.debug(result)
+    except ServerConnectionError:
+        logging.warning('connection error!')
