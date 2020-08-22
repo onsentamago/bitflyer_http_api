@@ -10,17 +10,17 @@ class BitflyerHttpApi:
         self.base_url = 'https://api.bitflyer.com/v1/'
         self.timeout = 5
 
-    def __request(self, endpoint: str, method: str = 'GET', params=None):
+    def __request(self, endpoint: str, method: str = 'GET', params: dict = None):
         if method == 'GET':
             try:
                 return requests.get(self.base_url + endpoint, params=params, timeout=self.timeout)
             except requests.ConnectionError:
                 raise ServerConnectionError()
 
-    def get_market_status(self):
+    def get_market_status(self) -> dict:
         return self.__request("gethealth").json()
 
-    def get_ticker(self, product_code: Market):
+    def get_ticker(self, product_code: Market) -> dict:
         endpoint = "ticker"
         payloads = {'product_code': product_code.value}
         return self.__request(endpoint, params=payloads).json()
