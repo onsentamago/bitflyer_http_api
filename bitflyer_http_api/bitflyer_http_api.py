@@ -1,6 +1,6 @@
 import requests
 
-from .exceptions import ServerConnectionError
+from .exceptions import ServerConnectionError, BitflyerInternalError
 from .market import Market
 
 
@@ -10,17 +10,22 @@ class BitflyerHttpApi:
         self.base_url = 'https://api.bitflyer.com/v1/'
         self.timeout = 5
 
-    def __request(self, endpoint: str, method: str = 'GET', params: dict = None):
+    def __request(self, endpoint: str, method: str = 'GET', params: dict = None) -> dict:
         if method == 'GET':
             try:
-                return requests.get(self.base_url + endpoint, params=params, timeout=self.timeout)
+                result = requests.get(self.base_url + endpoint, params=params, timeout=self.timeout) \
+                    .json()
+                if result['status'] < 0:
+                    raise BitflyerInternalError(result['error_message'])
+                return result
             except requests.ConnectionError:
                 raise ServerConnectionError()
 
     def get_market_status(self) -> dict:
-        return self.__request("gethealth").json()
+        endpoint = "gethealth"
+        return self.__request(endpoint)
 
     def get_ticker(self, product_code: Market) -> dict:
         endpoint = "ticker"
         payloads = {'product_code': product_code.value}
-        return self.__request(endpoint, params=payloads).json()
+        return self.__request(endpoint, params=payloads)
