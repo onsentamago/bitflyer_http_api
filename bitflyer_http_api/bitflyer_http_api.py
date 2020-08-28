@@ -13,9 +13,9 @@ class BitflyerHttpApi:
     def __request(self, endpoint: str, method: str = 'GET', params: dict = None) -> dict:
         if method == 'GET':
             try:
-                result = requests.get(self.base_url + endpoint, params=params, timeout=self.timeout) \
+                result: dict = requests.get(self.base_url + endpoint, params=params, timeout=self.timeout) \
                     .json()
-                if result['status'] < 0:
+                if 'status' in result.keys() and result['status'] < 0:
                     raise BitflyerInternalError(result['error_message'])
                 return result
             except requests.ConnectionError:
