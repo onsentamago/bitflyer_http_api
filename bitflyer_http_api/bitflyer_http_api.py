@@ -1,4 +1,6 @@
 import requests
+from datetime import datetime
+from typing import Union
 
 from .exceptions import ServerConnectionError, BitflyerInternalError
 from .market import Market
@@ -20,6 +22,10 @@ class BitflyerHttpApi:
                 return result
             except requests.ConnectionError:
                 raise ServerConnectionError()
+
+    @staticmethod
+    def make_timestamp_readable(timestamp: Union[str, int], format: str = '%Y-%m-%d %H:%M:%S') -> str:
+        return datetime.fromtimestamp(int(timestamp)).strftime(format)
 
     def get_market_status(self) -> dict:
         endpoint = "gethealth"
