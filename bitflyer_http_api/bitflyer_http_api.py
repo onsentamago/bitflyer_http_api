@@ -27,6 +27,16 @@ class BitflyerHttpApi:
     def make_timestamp_readable(timestamp: Union[str, int], format: str = '%Y-%m-%d %H:%M:%S') -> str:
         return datetime.fromtimestamp(int(timestamp)).strftime(format)
 
+    @staticmethod
+    def get_previous_time(formatted: bool = False) -> Union[int, str]:
+        # get one minute before timestamp
+        dt = datetime(datetime.now().year, datetime.now().month, datetime.now().day, datetime.now().hour,
+                           datetime.now().minute - 1)
+        rounded = round(dt.timestamp())
+        if formatted:
+            return BitflyerHttpApi.make_timestamp_readable(rounded)
+        return rounded
+
     def get_market_status(self) -> dict:
         endpoint = "gethealth"
         return self.__request(endpoint)
