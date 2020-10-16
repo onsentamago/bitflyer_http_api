@@ -21,6 +21,13 @@ def test_raise_exception(mocker):
     assert excinfo.value.message == "Connection error occurred"
 
 
+def test_get_previous_time():
+    from datetime import datetime
+    current = datetime(datetime.now().year, datetime.now().month, datetime.now().day, datetime.now().hour,
+                       datetime.now().minute)
+    assert current.timestamp() - BitflyerHttpApi.get_previous_time(False) == 60
+
+
 def test_make_timestamp_readable():
     assert BitflyerHttpApi.make_timestamp_readable('1600479960') == '2020-09-19 01:46:00'
     assert BitflyerHttpApi.make_timestamp_readable(1600479960) == '2020-09-19 01:46:00'

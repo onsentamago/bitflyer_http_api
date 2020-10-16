@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Union
 
 from .exceptions import ServerConnectionError, BitflyerInternalError
@@ -30,9 +30,10 @@ class BitflyerHttpApi:
     @staticmethod
     def get_previous_time(formatted: bool = False) -> Union[int, str]:
         # get one minute before timestamp
-        dt = datetime(datetime.now().year, datetime.now().month, datetime.now().day, datetime.now().hour,
-                           datetime.now().minute - 1)
-        rounded = round(dt.timestamp())
+        current = datetime(datetime.now().year, datetime.now().month, datetime.now().day, datetime.now().hour,
+                           datetime.now().minute)
+        dt = current - timedelta(minutes=1)
+        rounded: int = round(dt.timestamp())
         if formatted:
             return BitflyerHttpApi.make_timestamp_readable(rounded)
         return rounded
