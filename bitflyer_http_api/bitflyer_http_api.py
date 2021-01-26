@@ -17,15 +17,15 @@ class BitflyerHttpApi:
             try:
                 result: dict = requests.get(self.base_url + endpoint, params=params, timeout=self.timeout) \
                     .json()
-                if 'status' in result.keys() and result['status'] < 0:
+                if 'error_message' in result.keys():
                     raise BitflyerInternalError(result['error_message'])
                 return result
             except requests.ConnectionError:
                 raise ServerConnectionError()
 
     @staticmethod
-    def make_timestamp_readable(timestamp: Union[str, int], format: str = '%Y-%m-%d %H:%M:%S') -> str:
-        return datetime.fromtimestamp(int(timestamp)).strftime(format)
+    def make_timestamp_readable(timestamp: Union[str, int], f: str = '%Y-%m-%d %H:%M:%S') -> str:
+        return datetime.fromtimestamp(int(timestamp)).strftime(f)
 
     @staticmethod
     def get_previous_time(formatted: bool = False) -> Union[int, str]:

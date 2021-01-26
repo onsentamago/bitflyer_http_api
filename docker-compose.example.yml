@@ -2,8 +2,7 @@ version: '3'
 services:
   main:
     build: .
+    working_dir: /home/itrunky/dev/Trade/bitflyer_http_api
     volumes:
-      - .:/code
-    environment:
-      STAGE: localhost
+      - .:/home/itrunky/dev/Trade/bitflyer_http_api
 
