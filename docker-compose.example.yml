@@ -2,7 +2,7 @@ version: '3'
 services:
   main:
     build: .
-    working_dir: /home/itrunky/dev/Trade/bitflyer_http_api
+    working_dir: /home/user/dev/Trade/bitflyer_http_api
     volumes:
-      - .:/home/itrunky/dev/Trade/bitflyer_http_api
+      - .:/home/user/dev/Trade/bitflyer_http_api
 
