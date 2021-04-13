@@ -1,6 +1,4 @@
 import requests
-from datetime import datetime, timedelta
-from typing import Union
 
 from .exceptions import ServerConnectionError, BitflyerInternalError
 from .market import Market
@@ -22,21 +20,6 @@ class BitflyerHttpApi:
                 return result
             except requests.ConnectionError:
                 raise ServerConnectionError()
-
-    @staticmethod
-    def make_timestamp_readable(timestamp: Union[str, int], f: str = '%Y-%m-%d %H:%M:%S') -> str:
-        return datetime.fromtimestamp(int(timestamp)).strftime(f)
-
-    @staticmethod
-    def get_previous_time(formatted: bool = False) -> Union[int, str]:
-        # get one minute before timestamp
-        current = datetime(datetime.now().year, datetime.now().month, datetime.now().day, datetime.now().hour,
-                           datetime.now().minute)
-        dt = current - timedelta(minutes=1)
-        rounded: int = round(dt.timestamp())
-        if formatted:
-            return BitflyerHttpApi.make_timestamp_readable(rounded)
-        return rounded
 
     def get_market_status(self) -> dict:
         endpoint = "gethealth"
