@@ -32,3 +32,8 @@ def test_raise_exception(mocker):
 
 def test_get_market():
     assert BitflyerHttpApi.get_market("FX_BTC_JPY") == Market.FX_BTC_JPY
+
+
+def test_get_market_raise_error():
+    with pytest.raises(ValueError, match="Invalid symbol"):
+        BitflyerHttpApi.get_market("INVALID_SYMBOL")
