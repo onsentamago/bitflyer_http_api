@@ -29,7 +29,7 @@ class BitflyerHttpApi:
         for name, member in Market.__members__.items():
             if member.value == symbol:
                 return member
-        raise ValueError
+        raise ValueError("Invalid symbol")
 
     def get_market_status(self) -> dict:
         endpoint = "gethealth"
